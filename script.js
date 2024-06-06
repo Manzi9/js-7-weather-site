@@ -14,6 +14,7 @@ function error(error) {
 //go get the weather data from the api
 async function getWeather(latitude, longitude) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=17a3e02a9cc47ed1eac90bc2f9c0012a`;
+  console.log(url);
 
   //get data and turn into object, two lectures about this world to come
   let result = await fetch(url);
@@ -21,3 +22,5 @@ async function getWeather(latitude, longitude) {
 
   console.log(result.city, result.list);
 }
+// Data on site
+document.getElementById("root").innerHTML = "Bob"; //
