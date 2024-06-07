@@ -2,6 +2,8 @@
 const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 navigator.geolocation.getCurrentPosition(success, error, options);
 
+const domRef = document.getElementById("root");
+
 //callbacks for success and error
 function success({ coords }) {
   const { latitude, longitude } = coords;
@@ -12,20 +14,27 @@ function error(error) {
 }
 
 //go get the weather data from the api
-var result;
+
 async function getWeather(latitude, longitude) {
   const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=025d6d7082992c91d55137fa52f388c1`;
   console.log(url);
 
   //get data and turn into object, two lectures about this world to come
-  var result = await fetch(url);
+  let result = await fetch(url);
   result = await result.json();
 
-  console.log(result.city, result.list);
-  return result;
-}
+  //Layout
+  updateInterface(result);
 
-console.log(result);
+  console.log(result.city, result.list);
+}
+function updateInterface(weather) {
+  for (let i = 0; i < weather.list.length; i++) {
+    domRef.append(generateHTML("h1", "Thursday"));
+    domRef.append(generateHTML("p", weather.list[i].main.temp));
+    domRef.append(generateHTML("p", "Sunny"));
+  }
+}
 // Data on site
 // document.getElementById("root").innerHTML = "Bob,"; //shouldn't do it this way.
 
@@ -36,8 +45,3 @@ function generateHTML(tag, text) {
 
   return _elem;
 }
-
-//Layout
-document.getElementById("root").append(generateHTML("h1", "Thursday"));
-document.getElementById("root").append(generateHTML("p", "Temp: 20C"));
-document.getElementById("root").append(generateHTML("p", "Sunny"));
