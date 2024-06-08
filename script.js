@@ -24,14 +24,18 @@ async function getweatherURL(latitude, longitude) {
   result = await result.json();
 
   //Layout
-  displayWeather(result);
+  displayWeatherInfo(result);
 
-  console.log(result.city, result.list);
+  console.log(result); //what's the difference between result.city and weather Array?!
 }
-function displayWeather(weatherArr) {
+function displayWeatherInfo(weatherArr) {
+  rootRef.append(generateHTML("h1", `Weather in ${weatherArr.city.name}`));
   for (let i = 0; i < weatherArr.list.length; i++) {
-    rootRef.append(generateHTML("h1", "Thursday"));
-    rootRef.append(generateHTML("p", weatherArr.list[i].main.temp - 273.15));
+    rootRef.append(generateHTML("h2", "Thursday"));
+    rootRef.append(
+      generateHTML("p", Math.round(weatherArr.list[i].main.temp - 273.15) + "C")
+      // How to add degrees? &deg; doesn't work.
+    );
     rootRef.append(
       generateHTML("p", weatherArr.list[i].weather[0].description)
     );
