@@ -31,7 +31,10 @@ async function getweatherURL(latitude, longitude) {
 function displayWeatherInfo(weatherArr) {
   rootRef.append(generateHTML("h1", `Weather in ${weatherArr.city.name}`));
   for (let i = 0; i < weatherArr.list.length; i++) {
-    rootRef.append(generateHTML("h2", "Thursday"));
+    let unixTime = weatherArr.list[i].dt * 1000;
+    let date = new Date(unixTime); //Can I remove the timezone details?
+
+    rootRef.append(generateHTML("h2", date));
     rootRef.append(
       generateHTML("p", Math.round(weatherArr.list[i].main.temp - 273.15) + "C")
       // How to add degrees? &deg; doesn't work.
@@ -39,14 +42,17 @@ function displayWeatherInfo(weatherArr) {
     rootRef.append(
       generateHTML("p", weatherArr.list[i].weather[0].description)
     );
+    // rootRef.append(generateHTML("img", weatherArr.list[i].weather[0].icon));
+    //
   }
 }
 // Data on site
 // document.getElementById("root").innerHTML = "Bob,"; //shouldn't do it this way.
 
 function generateHTML(tag, text) {
-  let _text = document.createTextNode(text);
+  let _text = document.createTextNode(text); //Why does the order of text/elem variables matter?
   let _elem = document.createElement(tag);
+  // let _image = document.createElement(image);
   _elem.append(_text);
 
   return _elem;
