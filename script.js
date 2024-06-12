@@ -1,3 +1,10 @@
+/*For tomorrow
+- Error Handling
+- Add deg 
+- Add Style 
+- Maybe add pictures
+*/
+
 //--------------------------------------------------------------------
 //initiate get location
 //--------------------------------------------------------------------
@@ -9,16 +16,15 @@ const rootRef = document.getElementById("root");
 //--------------------------------------------------------------------
 // Create search
 //--------------------------------------------------------------------
-const searchContainer = document.createElement("div");
+const searchBox = document.createElement("div");
 const searchInput = document.createElement("input");
-searchInput.setAttribute("type", "text");
 searchInput.setAttribute("placeholder", "Enter city name");
 const searchButton = document.createElement("button");
 searchButton.textContent = "Search";
 
-searchContainer.appendChild(searchInput);
-searchContainer.appendChild(searchButton);
-document.body.insertBefore(searchContainer, rootRef);
+searchBox.appendChild(searchInput);
+searchBox.appendChild(searchButton);
+document.body.insertBefore(searchBox, rootRef);
 
 searchButton.addEventListener("click", () => {
   const city = searchInput.value;
@@ -33,9 +39,9 @@ searchButton.addEventListener("click", () => {
 async function getCoords(city) {
   const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=025d6d7082992c91d55137fa52f388c1`;
   let response = await fetch(url);
-  let data = await response.json();
-  if (data && data.length > 0) {
-    const { lat, lon } = data[0];
+  let coordArr = await response.json();
+  if (coordArr && coordArr.length > 0) {
+    const { lat, lon } = coordArr[0];
     getweatherURL(lat, lon);
   } else {
     console.log("City not found");
