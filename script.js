@@ -5,6 +5,43 @@ const options = { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 };
 navigator.geolocation.getCurrentPosition(success, error, options);
 
 const rootRef = document.getElementById("root");
+
+//--------------------------------------------------------------------
+// Create search
+//--------------------------------------------------------------------
+const searchContainer = document.createElement("div");
+const searchInput = document.createElement("input");
+searchInput.setAttribute("type", "text");
+searchInput.setAttribute("placeholder", "Enter city name");
+const searchButton = document.createElement("button");
+searchButton.textContent = "Search";
+
+searchContainer.appendChild(searchInput);
+searchContainer.appendChild(searchButton);
+document.body.insertBefore(searchContainer, rootRef);
+
+searchButton.addEventListener("click", () => {
+  const city = searchInput.value;
+  if (city) {
+    getCoords(city);
+  }
+});
+
+//--------------------------------------------------------------------
+// Fetch city coordinates
+//--------------------------------------------------------------------
+async function getCoords(city) {
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=025d6d7082992c91d55137fa52f388c1`;
+  let response = await fetch(url);
+  let data = await response.json();
+  if (data && data.length > 0) {
+    const { lat, lon } = data[0];
+    getweatherURL(lat, lon);
+  } else {
+    console.log("City not found");
+  }
+}
+
 //--------------------------------------------------------------------
 //callbacks for success and error
 //--------------------------------------------------------------------
@@ -12,6 +49,7 @@ function success({ coords }) {
   const { latitude, longitude } = coords;
   getweatherURL(latitude, longitude);
 }
+
 function error(error) {
   console.log("Error", error);
 }
@@ -32,10 +70,12 @@ async function getweatherURL(latitude, longitude) {
 
   console.log(result); //what's the difference between result.city and weather Array?!
 }
+
 //--------------------------------------------------------------------
 //UPDATE INTERFACE
 //--------------------------------------------------------------------
 function displayWeatherInfo(weatherArr) {
+  rootRef.innerHTML = ""; // Clear previous weather information
   rootRef.append(generateHTML("h1", `Weather in ${weatherArr.city.name}`));
   for (let i = 0; i < weatherArr.list.length; i++) {
     let unixTime = weatherArr.list[i].dt * 1000;
@@ -54,6 +94,7 @@ function displayWeatherInfo(weatherArr) {
     //
   }
 }
+
 // Data on site
 // document.getElementById("root").innerHTML = "Bob,"; //shouldn't do it this way.
 
@@ -68,33 +109,3 @@ function generateHTML(tag, text) {
 
   return _elem;
 }
-
-// const form = document.getElementById("form");
-// const city = document.getElementById("query");
-// const google = "https://www.google.com/search?q=site%3A+";
-// const site = "pagedart.com";
-
-// function submitted(event) {
-//   event.preventDefault();
-//   const url = google + site + "+" + city.value;
-//   const win = window.open(url, "_blank");
-//   win.focus();
-// }
-
-// form.addEventListener("submit", submitted);
-
-//--------------------------------------------------------------------
-//SEARCH BAR
-//--------------------------------------------------------------------
-const form = document.getElementById("form");
-const city = document.getElementById(query.value);
-const searchBTN = document.getElementById("SearchBTN");
-
-function searchForCity(city) {
-  const searchURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=025d6d7082992c91d55137fa52f388c1`;
-  console.log(searchURL);
-}
-form.addEventListener("submit", searchForCity);
-// searchBTN.addEventListener("click", function (e) {
-//   searchForCity(city);
-// });
