@@ -1,6 +1,4 @@
 /*For tomorrow
-- Error Handling
-- Add deg 
 - Add Style 
 - Maybe add pictures
 */
@@ -30,7 +28,7 @@ searchButton.addEventListener("click", () => {
   const city = searchInput.value;
   if (city) {
     getCoords(city);
-  }
+  } else alert("Please enter a valid city!");
 });
 
 searchInput.addEventListener("keypress", function (e) {
@@ -38,7 +36,7 @@ searchInput.addEventListener("keypress", function (e) {
     const city = searchInput.value;
     if (city) {
       getCoords(city);
-    }
+    } else alert("Please enter a valid city!");
   }
 }); //event listeners repeat themselves, can I add event listener for BOTH click and "enter?"
 //--------------------------------------------------------------------
