@@ -33,13 +33,14 @@ searchButton.addEventListener("click", () => {
   }
 });
 
-searchInput.addEventListener("enter", () => {
-  const city = searchInput.value;
-  if (city) {
-    getCoords(city);
+searchInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    const city = searchInput.value;
+    if (city) {
+      getCoords(city);
+    }
   }
-});
-
+}); //event listeners repeat themselves, can I add event listener for BOTH click and "enter?"
 //--------------------------------------------------------------------
 // Fetch city coordinates
 //--------------------------------------------------------------------
@@ -81,7 +82,7 @@ async function getweatherURL(latitude, longitude) {
   //Layout
   displayWeatherInfo(result);
 
-  console.log(result); //what's the difference between result.city and weather Array?!
+  console.log(result);
 }
 
 //--------------------------------------------------------------------
@@ -92,11 +93,14 @@ function displayWeatherInfo(weatherArr) {
   rootRef.append(generateHTML("h1", `Weather in ${weatherArr.city.name}`));
   for (let i = 0; i < weatherArr.list.length; i++) {
     let unixTime = weatherArr.list[i].dt * 1000;
-    let date = new Date(unixTime); //Can I remove the timezone details?
+    let date = new Date(unixTime).toLocaleString();
 
     rootRef.append(generateHTML("h2", date));
     rootRef.append(
-      generateHTML("p", Math.round(weatherArr.list[i].main.temp - 273.15) + "C")
+      generateHTML(
+        "p",
+        Math.round(weatherArr.list[i].main.temp - 273.15) + "\u00B0C"
+      )
       // How to add degrees? &deg; doesn't work.
     );
     rootRef.append(
