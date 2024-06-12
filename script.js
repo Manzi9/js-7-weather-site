@@ -33,6 +33,13 @@ searchButton.addEventListener("click", () => {
   }
 });
 
+searchInput.addEventListener("enter", () => {
+  const city = searchInput.value;
+  if (city) {
+    getCoords(city);
+  }
+});
+
 //--------------------------------------------------------------------
 // Fetch city coordinates
 //--------------------------------------------------------------------
