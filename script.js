@@ -1,6 +1,5 @@
 /*For tomorrow
 - Add Style 
-- Maybe add pictures
 */
 
 //--------------------------------------------------------------------
@@ -99,28 +98,28 @@ function displayWeatherInfo(weatherArr) {
         "p",
         Math.round(weatherArr.list[i].main.temp - 273.15) + "\u00B0C"
       )
-      // How to add degrees? &deg; doesn't work.
     );
+    rootRef.append(addIcons("img", weatherArr.list[i].weather[0].icon));
     rootRef.append(
       generateHTML("p", weatherArr.list[i].weather[0].description)
     );
-
-    // rootRef.append(generateHTML("img", weatherArr.list[i].weather[0].icon));
-    //
   }
 }
-
-// Data on site
-// document.getElementById("root").innerHTML = "Bob,"; //shouldn't do it this way.
 
 //--------------------------------------------------------------------
 //Writes HTML
 //--------------------------------------------------------------------
 function generateHTML(tag, text) {
-  let _text = document.createTextNode(text); //Why does the order of text/elem variables matter?
+  let _text = document.createTextNode(text);
   let _elem = document.createElement(tag);
   // let _image = document.createElement(image);
   _elem.append(_text);
 
   return _elem;
+}
+
+function addIcons(element, path) {
+  const _element = document.createElement(element);
+  _element.setAttribute("src", `./assets/${path}@2x.png`);
+  return _element;
 }
