@@ -87,7 +87,12 @@ async function getweatherURL(latitude, longitude) {
 //--------------------------------------------------------------------
 function displayWeatherInfo(weatherArr) {
   rootRef.innerHTML = ""; // Clear previous weather information
-  rootRef.append(generateHTML("h1", `Weather in ${weatherArr.city.name}`));
+  rootRef.append(
+    generateHTML(
+      "h1",
+      `Weather in ${weatherArr.city.name}, ${weatherArr.city.country} `
+    )
+  );
   for (let i = 0; i < weatherArr.list.length; i++) {
     let unixTime = weatherArr.list[i].dt * 1000;
     let date = new Date(unixTime).toLocaleString();
