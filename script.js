@@ -7,7 +7,7 @@ const rootRef = document.getElementById("root");
 // Create search
 const searchBox = document.createElement("div");
 const searchInput = document.createElement("input");
-searchInput.setAttribute("placeholder", "Enter city name");
+searchInput.setAttribute("placeholder", "Enter a city!");
 const searchButton = document.createElement("button");
 searchButton.textContent = "Search";
 
@@ -80,7 +80,7 @@ function displayWeatherInfo(weatherArr) {
   );
   for (let i = 0; i < weatherArr.list.length; i++) {
     let unixTime = weatherArr.list[i].dt * 1000;
-    let date = new Date(unixTime).toDateString();
+    let date = new Date(unixTime).toLocaleString();
 
     rootRef.append(generateHTML("h2", date));
     rootRef.append(
