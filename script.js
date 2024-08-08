@@ -35,7 +35,7 @@ searchInput.addEventListener("keypress", function (e) {
     const city = searchInput.value;
     if (city) {
       getCoords(city);
-    } else alert("Please enter a valid city!");
+    } else alert("Please enter a valid city!!");
   }
 }); //event listeners repeat themselves, can I add event listener for BOTH click and "enter?"
 //--------------------------------------------------------------------
@@ -109,9 +109,9 @@ function displayWeatherInfo(weatherArr) {
 //--------------------------------------------------------------------
 //Writes HTML
 //--------------------------------------------------------------------
-function generateHTML(tag, text) {
+function generateHTML(elem, text) {
   let _text = document.createTextNode(text);
-  let _elem = document.createElement(tag);
+  let _elem = document.createElement(elem);
   // let _image = document.createElement(image);
   _elem.append(_text);
 
