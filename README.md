@@ -19,7 +19,7 @@ This is a simple web application that fetches and displays weather forecasts bas
 
 1. **Clone the repository:**
    ```sh
-   git clone <https://github.com/Manzi9/js-7-weather-site.git>
+   git clone https://github.com/Manzi9/js-7-weather-site.git
    ```
 2. **Open `index.html` in a web browser** to run the application, or run a live server.
 
