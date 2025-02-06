@@ -8,6 +8,7 @@ body {
   color: #383838;
   margin: 0;
   padding: 0;
+  top: 0px;
 }
 
 input {
@@ -28,6 +29,15 @@ button {
   left: 0;
   border-radius: 13px;
   border: none;
+}
+
+.search-header {
+  position: fixed;
+  padding: 5px;
+  top: 0;
+  height: 75px;
+  width: 100%;
+  backdrop-filter: blur(2px);
 }
 
 .day-container {

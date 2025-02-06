@@ -11,6 +11,7 @@ searchInput.setAttribute("placeholder", "Enter a city!");
 const searchButton = document.createElement("button");
 searchButton.textContent = "Search";
 
+searchBox.classList.add("search-header");
 searchBox.appendChild(searchInput);
 searchBox.appendChild(searchButton);
 document.body.insertBefore(searchBox, rootRef);
