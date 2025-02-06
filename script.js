@@ -75,24 +75,62 @@ function displayWeatherInfo(weatherArr) {
   rootRef.append(
     generateHTML(
       "h1",
-      `Weather in ${weatherArr.city.name}, ${weatherArr.city.country} `
+      `Weather in ${weatherArr.city.name}, ${weatherArr.city.country}`
     )
   );
-  for (let i = 0; i < weatherArr.list.length; i++) {
-    let unixTime = weatherArr.list[i].dt * 1000;
-    let date = new Date(unixTime).toLocaleString();
 
-    rootRef.append(generateHTML("h2", date));
-    rootRef.append(
-      generateHTML(
-        "p",
-        Math.round(weatherArr.list[i].main.temp - 273.15) + "\u00B0C"
-      )
-    );
-    rootRef.append(addIcons("img", weatherArr.list[i].weather[0].icon));
-    rootRef.append(
-      generateHTML("p", weatherArr.list[i].weather[0].description)
-    );
+  // Group forecast data by day
+  const groupedByDay = {};
+  weatherArr.list.forEach((forecast) => {
+    const date = new Date(forecast.dt * 1000);
+    const formattedDate = `${date.getDate()} ${date.toLocaleDateString(
+      "en-US",
+      {
+        month: "long",
+      }
+    )}, ${date.toLocaleDateString("en-US", { weekday: "long" })}`;
+    if (!groupedByDay[formattedDate]) {
+      groupedByDay[formattedDate] = [];
+    }
+    groupedByDay[formattedDate].push(forecast);
+  });
+
+  // Create elements for each day
+  for (const [day, forecasts] of Object.entries(groupedByDay)) {
+    const dayContainer = document.createElement("div");
+    dayContainer.className = "day-container";
+
+    // Add day header
+    const dayHeader = generateHTML("h2", day);
+    dayContainer.appendChild(dayHeader);
+
+    // Create hourly forecast container
+    const hourlyContainer = document.createElement("div");
+    hourlyContainer.className = "hourly-container";
+
+    // Add hourly forecasts
+    forecasts.forEach((forecast) => {
+      const hourlyForecast = document.createElement("div");
+      hourlyForecast.className = "hourly-forecast";
+
+      const time = new Date(forecast.dt * 1000).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      hourlyForecast.appendChild(generateHTML("p", time));
+      hourlyForecast.appendChild(
+        generateHTML("p", `${Math.round(forecast.main.temp - 273.15)}°C`)
+      );
+      hourlyForecast.appendChild(addIcons("img", forecast.weather[0].icon));
+      hourlyForecast.appendChild(
+        generateHTML("p", forecast.weather[0].description)
+      );
+
+      hourlyContainer.appendChild(hourlyForecast);
+    });
+
+    dayContainer.appendChild(hourlyContainer);
+    rootRef.appendChild(dayContainer);
   }
 }
 
