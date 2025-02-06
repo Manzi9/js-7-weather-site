@@ -83,12 +83,11 @@ function displayWeatherInfo(weatherArr) {
   const groupedByDay = {};
   weatherArr.list.forEach((forecast) => {
     const date = new Date(forecast.dt * 1000);
-    const formattedDate = `${date.getDate()} ${date.toLocaleDateString(
-      "en-US",
-      {
-        month: "long",
-      }
-    )}, ${date.toLocaleDateString("en-US", { weekday: "long" })}`;
+    const formattedDate = ` ${date.toLocaleDateString("en-US", {
+      weekday: "long",
+    })}, ${date.getDate()} ${date.toLocaleDateString("en-US", {
+      month: "long",
+    })}`;
     if (!groupedByDay[formattedDate]) {
       groupedByDay[formattedDate] = [];
     }
