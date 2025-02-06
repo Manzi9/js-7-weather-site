@@ -2,9 +2,9 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #a2d7ff;
-  background-image: url(./assets/bliss-blur\ copy.jpg);
+  background-image: url(./assets/bliss-blur.jpg);
   background-size: cover;
-
+  background-attachment: fixed;
   color: #383838;
   margin: 0;
   padding: 0;
